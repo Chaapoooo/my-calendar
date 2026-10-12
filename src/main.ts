@@ -1,5 +1,5 @@
 import './style.css'
-import {updateCalendar, outputCurrentMonthAndYear} from './assets/calendar'
+import {updateCalendar, outputCurrentMonthAndYear} from './functions/calendar'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="center">

@@ -28,6 +28,6 @@ index.html
 src/
   main.ts          # Point d’entrée et structure de la page
   style.css        # Mise en page et styles
-  assets/
+  functions/
     calendar.ts    # Fonctions liées au calendrier
 ```
