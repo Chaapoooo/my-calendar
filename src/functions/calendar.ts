@@ -1,11 +1,35 @@
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
 
-export function updateCalendar() {
-  let year = 2026
-  let month = 9
+export function moveMonth(direction: 'previous' | 'current' | 'next') {
+  if (direction === 'previous') {
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+  } else if (direction === 'next') {
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+  } else if (direction === 'current') {
+    currentMonth = new Date().getMonth();
+    currentYear = new Date().getFullYear();
+  }
+
+  outputCurrentMonthAndYear(currentMonth, currentYear);
+  updateCalendar(currentMonth, currentYear);
+}
+
+export function updateCalendar(month: number, year: number) {
   let currentDate = new Date(year, month, 1)
   let daysInMonth = new Date(year, month + 1, 0).getDate()
   let monthBeginOffset = currentDate.getDay() === 0 ? 6 : (currentDate.getDay() + 6) % 7
   const daysContainer = document.querySelector<HTMLDivElement>('#days')!;
+
+  daysContainer.innerHTML = '';
 
   for (let i = 0; i < monthBeginOffset; i++) {
     const emptyDay = document.createElement('div');
@@ -21,34 +45,30 @@ export function updateCalendar() {
   }
 }
 
-function getMonthVerbose(){
-    let currentDate = new Date().getMonth();
-    
-    if (currentDate == 0) {return "January";}
-    else if (currentDate == 1) {return "February";}
-    else if (currentDate == 2) {return "March";}
-    else if (currentDate == 3) {return "April";}
-    else if (currentDate == 4) {return "May";}
-    else if (currentDate == 5) {return "June";}
-    else if (currentDate == 6) {return "July";}
-    else if (currentDate == 7) {return "August";}
-    else if (currentDate == 8) {return "September";}
-    else if (currentDate == 9) {return "October";}
-    else if (currentDate == 10) {return "November";}
-    else if (currentDate == 11) {return "December";}
+function getMonthVerbose(month: number){    
+    if (month == 0) {return "January";}
+    else if (month == 1) {return "February";}
+    else if (month == 2) {return "March";}
+    else if (month == 3) {return "April";}
+    else if (month == 4) {return "May";}
+    else if (month == 5) {return "June";}
+    else if (month == 6) {return "July";}
+    else if (month == 7) {return "August";}
+    else if (month == 8) {return "September";}
+    else if (month == 9) {return "October";}
+    else if (month == 10) {return "November";}
+    else if (month == 11) {return "December";}
     else {
         console.error("Error: Invalid month value.");
         return "Err";
     }
 }
-export function outputCurrentMonthAndYear() {
-    let currentDate = new Date();
-    let currentMonth = getMonthVerbose();
-    let currentYear = currentDate.getFullYear();
+export function outputCurrentMonthAndYear(month: number,year: number) {
+    let getMonth = getMonthVerbose(month);
     
     const monthElement = document.querySelector<HTMLDivElement>('#currentMonth')!;
     const yearElement = document.querySelector<HTMLDivElement>('#currentYear')!;
     
-    monthElement.textContent = currentMonth;
-    yearElement.textContent = currentYear.toString();
+    monthElement.textContent = getMonth;
+    yearElement.textContent = year.toString();
 }

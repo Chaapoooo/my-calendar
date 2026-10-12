@@ -1,5 +1,5 @@
 import './style.css'
-import {updateCalendar, outputCurrentMonthAndYear} from './functions/calendar'
+import {updateCalendar, outputCurrentMonthAndYear, moveMonth} from './functions/calendar'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="center">
@@ -30,6 +30,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <div id="days"></div>
 </section>
 `
+let previousMonthButton = document.querySelector<HTMLButtonElement>('#previousMonth')!;
+let nextMonthButton = document.querySelector<HTMLButtonElement>('#nextMonth')!;
+let goToCurrentMonthButton = document.querySelector<HTMLButtonElement>('#goToCurrentMonth')!;
 
-outputCurrentMonthAndYear()
-updateCalendar()
+goToCurrentMonthButton.addEventListener('click', () => {
+  moveMonth('current');
+});
+
+previousMonthButton.addEventListener('click', () => {
+  moveMonth('previous');
+});
+
+nextMonthButton.addEventListener('click', () => {
+  moveMonth('next');
+});
+
+outputCurrentMonthAndYear(new Date().getMonth(), new Date().getFullYear())
+updateCalendar(new Date().getMonth(), new Date().getFullYear())
