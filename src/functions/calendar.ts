@@ -34,12 +34,16 @@ export function updateCalendar(month: number, year: number) {
   for (let i = 0; i < monthBeginOffset; i++) {
     const emptyDay = document.createElement('div');
     emptyDay.classList.add('day');
+    emptyDay.classList.add('empty');
     daysContainer.append(emptyDay);
   }
   
   for (let day = 1; day <= daysInMonth; day++) {
     const dayElement = document.createElement('div');
     dayElement.classList.add('day');
+    if (isToday(day, month, year)) {
+      dayElement.classList.add('today');
+    }
     dayElement.textContent = day.toString();
     daysContainer.append(dayElement);
   }
@@ -71,4 +75,14 @@ export function outputCurrentMonthAndYear(month: number,year: number) {
     
     monthElement.textContent = getMonth;
     yearElement.textContent = year.toString();
+}
+
+export function isToday(day: number, currentMonth: number, currentYear: number) {
+    const today = new Date();
+
+    return (
+        today.getFullYear() === currentYear &&
+        today.getMonth() === currentMonth &&
+        today.getDate() === day
+    );
 }
