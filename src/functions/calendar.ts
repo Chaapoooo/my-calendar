@@ -1,3 +1,5 @@
+import {addEvent} from './events'
+
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
@@ -40,6 +42,19 @@ export function updateCalendar(month: number, year: number) {
   
   for (let day = 1; day <= daysInMonth; day++) {
     const dayElement = document.createElement('div');
+    let dataset = dayElement.dataset;
+    dataset.date = `${year}-${(month+1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+    dayElement.addEventListener('click', () => {
+      if (!dataset.date) {
+        return;
+      }
+    
+      const eventsDialog = document.querySelector<HTMLDialogElement>('#eventsDialog')!;
+      eventsDialog.dataset.date = dataset.date;
+      eventsDialog.showModal();
+    });
+
     dayElement.classList.add('day');
     if (isToday(day, month, year)) {
       dayElement.classList.add('today');
