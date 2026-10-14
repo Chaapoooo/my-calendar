@@ -1,4 +1,4 @@
-import {addEvent} from './events'
+import {loadEvents} from './events'
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -40,6 +40,8 @@ export function updateCalendar(month: number, year: number) {
     daysContainer.append(emptyDay);
   }
   
+  let eventList = loadEvents();
+
   for (let day = 1; day <= daysInMonth; day++) {
     const dayElement = document.createElement('div');
     let dataset = dayElement.dataset;
@@ -49,7 +51,6 @@ export function updateCalendar(month: number, year: number) {
       if (!dataset.date) {
         return;
       }
-    
       const eventsDialog = document.querySelector<HTMLDialogElement>('#eventsDialog')!;
       eventsDialog.dataset.date = dataset.date;
       eventsDialog.showModal();
@@ -59,7 +60,22 @@ export function updateCalendar(month: number, year: number) {
     if (isToday(day, month, year)) {
       dayElement.classList.add('today');
     }
-    dayElement.textContent = day.toString();
+
+    let dayNumber = document.createElement('div')
+    dayNumber.classList.add('number')
+    dayNumber.textContent = day.toString();
+    dayElement.appendChild(dayNumber)
+
+    for (let i = 0; i < eventList.length; i++) {
+      if(eventList[i].date === dataset.date){
+        dayElement.classList.add('has-event')
+        let dayEvent = document.createElement('div')
+        dayEvent.classList.add('event')
+        dayElement.appendChild(dayEvent)
+        dayEvent.textContent = eventList[i].title
+      }
+    }
+    
     daysContainer.append(dayElement);
   }
 }
@@ -82,6 +98,7 @@ function getMonthVerbose(month: number){
         return "Err";
     }
 }
+
 export function outputCurrentMonthAndYear(month: number,year: number) {
     let getMonth = getMonthVerbose(month);
     
@@ -100,4 +117,8 @@ export function isToday(day: number, currentMonth: number, currentYear: number) 
         today.getMonth() === currentMonth &&
         today.getDate() === day
     );
+}
+
+export function refreshCalendar(){
+  updateCalendar(new Date().getMonth(), new Date().getFullYear())
 }

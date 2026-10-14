@@ -13,6 +13,8 @@ Les changements notables du projet sont documentés dans ce fichier.
 - [v0.2.0] 
     - Made a dialog panel to store the events on the localStorage.
     - Added `events.ts` in `functions` folder.
+- [v0.2.1]
+    - Events are shown directly on the page
 
 ### Changed
 

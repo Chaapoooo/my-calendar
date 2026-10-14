@@ -1,5 +1,5 @@
 import './style.css'
-import {updateCalendar, outputCurrentMonthAndYear, moveMonth} from './functions/calendar'
+import {updateCalendar, outputCurrentMonthAndYear, moveMonth, refreshCalendar} from './functions/calendar'
 import {addEvent} from './functions/events'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -53,6 +53,7 @@ form.addEventListener('submit', (event) => {
   if (content && date){
     addEvent(content, date);
     dialog.close();
+    refreshCalendar();
   }
 })
 let eventTitle = document.querySelector<HTMLInputElement>('#eventTitle')!;
@@ -79,4 +80,4 @@ nextMonthButton.addEventListener('click', () => {
 });
 
 outputCurrentMonthAndYear(new Date().getMonth(), new Date().getFullYear())
-updateCalendar(new Date().getMonth(), new Date().getFullYear())
+refreshCalendar();
