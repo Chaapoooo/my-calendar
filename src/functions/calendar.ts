@@ -1,4 +1,4 @@
-import {loadEvents} from './events'
+import {loadEvents, showEventsDialogForDate} from './events'
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -53,9 +53,9 @@ export function updateCalendar(month: number, year: number) {
       }
       const eventsDialog = document.querySelector<HTMLDialogElement>('#eventsDialog')!;
       eventsDialog.dataset.date = dataset.date;
+      showEventsDialogForDate(eventsDialog.dataset.date);
       eventsDialog.showModal();
     });
-
     dayElement.classList.add('day');
     if (isToday(day, month, year)) {
       dayElement.classList.add('today');
@@ -120,5 +120,5 @@ export function isToday(day: number, currentMonth: number, currentYear: number) 
 }
 
 export function refreshCalendar(){
-  updateCalendar(new Date().getMonth(), new Date().getFullYear())
+  updateCalendar(currentMonth, currentYear);
 }

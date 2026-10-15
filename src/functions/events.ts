@@ -22,3 +22,15 @@ export function addEvent(title: string, date: string){
     saveEvents(events)
 }
 
+export function showEventsDialogForDate(date: string, events = loadEvents()){
+    const dialogEvents = document.querySelector<HTMLDivElement>('#dialogEvents')!;
+    dialogEvents.innerHTML = ``
+    for(let i=0; i<events.length; i++){
+        if (events[i].date === date){
+            let dayEventDialog = document.createElement('div')
+            dayEventDialog.classList.add('dialogEvent')
+            dialogEvents.appendChild(dayEventDialog)
+            dayEventDialog.textContent = events[i].title
+        }
+    }
+}

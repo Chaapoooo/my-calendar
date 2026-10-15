@@ -1,6 +1,6 @@
 import './style.css'
-import {updateCalendar, outputCurrentMonthAndYear, moveMonth, refreshCalendar} from './functions/calendar'
-import {addEvent} from './functions/events'
+import {outputCurrentMonthAndYear, moveMonth, refreshCalendar} from './functions/calendar'
+import {addEvent, showEventsDialogForDate} from './functions/events'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="center">
@@ -33,9 +33,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <dialog id="eventsDialog">
   <form>
     <div>
-      <label for="eventTitle">Titre :</label>
+      <label for="eventTitle">Title :</label>
       <input type="text" id="eventTitle" name="title" required>
     </div>
+  
+  <div id="dialogEvents"></div>
     
     <div class="buttons">
       <button type="submit" value="save">Save</button>
@@ -56,9 +58,14 @@ form.addEventListener('submit', (event) => {
     refreshCalendar();
   }
 })
+
 let eventTitle = document.querySelector<HTMLInputElement>('#eventTitle')!;
 let dialog = document.querySelector<HTMLDialogElement>('#eventsDialog')!;
 
+let closeDialog = document.querySelector<HTMLButtonElement>('#closeDialog')!;
+closeDialog.addEventListener('click', () => {
+  dialog.close();
+})
 
 
 
