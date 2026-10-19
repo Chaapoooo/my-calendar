@@ -14,6 +14,12 @@
   - Events are shown directly on the page
 - **[v0.2.2]**
   - Events are shown inside of the dialogbox (when adding an event)
+- **[v0.3.0]**
+  - Events are listed properly with time.
+  - Two buttons (edit/delete) added in the dialog box.
+- **[v0.3.1]**
+  - Edit / delete buttons work properly
+  - Save / cancel buttons added and working when editing an event
 
 ### Changed
 
@@ -26,6 +32,8 @@
 
 - **[v0.2.2]**
   - Fixed updating the right month when confirming adding a new month.
+- **[v0.3.0]**
+  - Fixed miss behavior of the display part in the dialog box. 
 
 ### Removed
 

@@ -35,7 +35,7 @@ export function updateCalendar(month: number, year: number) {
 
   for (let i = 0; i < monthBeginOffset; i++) {
     const emptyDay = document.createElement('div');
-    emptyDay.classList.add('day');
+        emptyDay.classList.add('day');
     emptyDay.classList.add('empty');
     daysContainer.append(emptyDay);
   }

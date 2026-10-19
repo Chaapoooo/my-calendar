@@ -1,6 +1,6 @@
 import './style.css'
 import {outputCurrentMonthAndYear, moveMonth, refreshCalendar} from './functions/calendar'
-import {addEvent, showEventsDialogForDate} from './functions/events'
+import {addEvent} from './functions/events'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="center">
@@ -35,6 +35,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div>
       <label for="eventTitle">Title :</label>
       <input type="text" id="eventTitle" name="title" required>
+      <input type="text" id="eventTime" name="time" placeholder="HH:mm" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" maxlength=5 required>
     </div>
   
   <div id="dialogEvents"></div>
@@ -48,12 +49,20 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `
 
 let form = document.querySelector<HTMLFormElement>('#eventsDialog form')!;
+let time = document.querySelector<HTMLInputElement>('#eventTime')!;
+time.addEventListener('input', (event) => {
+  if(time.value.length==2 && event.inputType == 'insertText'){
+    time.value = time.value.toString() + ':'
+
+  }
+})
+
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   let content = eventTitle.value.trim();
   let date = dialog.dataset.date;
   if (content && date){
-    addEvent(content, date);
+    addEvent(content, date, time.value);
     dialog.close();
     refreshCalendar();
   }
@@ -66,9 +75,6 @@ let closeDialog = document.querySelector<HTMLButtonElement>('#closeDialog')!;
 closeDialog.addEventListener('click', () => {
   dialog.close();
 })
-
-
-
 
 let previousMonthButton = document.querySelector<HTMLButtonElement>('#previousMonth')!;
 let nextMonthButton = document.querySelector<HTMLButtonElement>('#nextMonth')!;
