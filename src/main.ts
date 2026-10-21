@@ -35,7 +35,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div>
       <label for="eventTitle">Title :</label>
       <input type="text" id="eventTitle" name="title" required>
-      <input type="text" id="eventTime" name="time" placeholder="HH:mm" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" maxlength=5 required>
+      <input type="text" id="eventTime" name="time" placeholder="HH:mm" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" maxlength=5 minlength=5>
+      <input type="text" id="eventDescription" name="description">
     </div>
   
   <div id="dialogEvents"></div>
@@ -50,30 +51,41 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 let form = document.querySelector<HTMLFormElement>('#eventsDialog form')!;
 let time = document.querySelector<HTMLInputElement>('#eventTime')!;
+let description = document.querySelector<HTMLInputElement>('#eventDescription')!;
 time.addEventListener('input', (event) => {
   if(time.value.length==2 && event.inputType == 'insertText'){
     time.value = time.value.toString() + ':'
-
   }
 })
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   let content = eventTitle.value.trim();
-  let date = dialog.dataset.date;
-  if (content && date){
+  let date = dialog.dataset.date!;
+  if (content && date && description){
+    addEvent(content, date, time.value, description.value);
+  } else if(content && date){
     addEvent(content, date, time.value);
-    dialog.close();
-    refreshCalendar();
+  } else {
+    addEvent(content, date);
   }
+  dialog.close();
+  refreshCalendar();
+  eventTitle.value = '';
+  time.value = '';
 })
 
 let eventTitle = document.querySelector<HTMLInputElement>('#eventTitle')!;
 let dialog = document.querySelector<HTMLDialogElement>('#eventsDialog')!;
+dialog.addEventListener('close', () => {
+  eventTitle.value = '';
+  time.value = '';
+})
 
 let closeDialog = document.querySelector<HTMLButtonElement>('#closeDialog')!;
 closeDialog.addEventListener('click', () => {
   dialog.close();
+  form.reset();
 })
 
 let previousMonthButton = document.querySelector<HTMLButtonElement>('#previousMonth')!;
